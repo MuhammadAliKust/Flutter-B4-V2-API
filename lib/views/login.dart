@@ -64,6 +64,7 @@ class _LoginViewState extends State<LoginView> {
                             .getUserProfile(loginResponse.token.toString())
                             .then((userResponse) {
                           userProvider.setUser(userResponse);
+                          userProvider.setToken(loginResponse.token.toString());
                           isLoading = false;
                           setState(() {});
                           Navigator.push(
