@@ -9,7 +9,7 @@ CreateTaskModel createTaskModelFromJson(String str) => CreateTaskModel.fromJson(
 String createTaskModelToJson(CreateTaskModel data) => json.encode(data.toJson());
 
 class CreateTaskModel {
-  final Task? task;
+  final CreateTask? task;
   final String? message;
   final bool? status;
 
@@ -20,7 +20,7 @@ class CreateTaskModel {
   });
 
   factory CreateTaskModel.fromJson(Map<String, dynamic> json) => CreateTaskModel(
-    task: json["task"] == null ? null : Task.fromJson(json["task"]),
+    task: json["task"] == null ? null : CreateTask.fromJson(json["task"]),
     message: json["message"],
     status: json["status"],
   );
@@ -32,7 +32,7 @@ class CreateTaskModel {
   };
 }
 
-class Task {
+class CreateTask {
   final String? description;
   final bool? complete;
   final String? owner;
@@ -41,7 +41,7 @@ class Task {
   final DateTime? updatedAt;
   final int? v;
 
-  Task({
+  CreateTask({
     this.description,
     this.complete,
     this.owner,
@@ -51,7 +51,7 @@ class Task {
     this.v,
   });
 
-  factory Task.fromJson(Map<String, dynamic> json) => Task(
+  factory CreateTask.fromJson(Map<String, dynamic> json) => CreateTask(
     description: json["description"],
     complete: json["complete"],
     owner: json["owner"],

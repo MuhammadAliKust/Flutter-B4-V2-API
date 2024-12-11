@@ -22,6 +22,23 @@ class TaskServices {
     }
   }
 
+  ///Update Task
+  Future updateTask(
+      {required String description,
+      required String token,
+      required String taskID}) async {
+    http.Response response = await http.patch(
+        Uri.parse("${baseUrl}todos/update/$taskID"),
+        headers: {'Content-Type': 'application/json', 'Authorization': token},
+        body: jsonEncode({"description": description, "complete": true}));
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    } else {
+      throw response.reasonPhrase.toString();
+    }
+  }
+
   ///Get All Task
   Future<GetAllTaskModel> getAllTask(String token) async {
     http.Response response = await http.get(
@@ -82,7 +99,6 @@ class TaskServices {
   ///Delete Task
   Future<bool> deleteTask(
       {required String token, required String taskID}) async {
-
     http.Response response = await http.delete(
       Uri.parse('${baseUrl}todos/delete/$taskID'),
       headers: {'Authorization': token},

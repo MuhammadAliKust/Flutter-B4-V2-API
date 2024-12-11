@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_b4_v2/providers/user.dart';
 import 'package:flutter_b4_v2/services/task.dart';
+import 'package:flutter_b4_v2/views/update_task.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +27,8 @@ class _GetAllTaskViewState extends State<GetAllTaskView> {
       body: LoadingOverlay(
         isLoading: isLoading,
         child: FutureProvider.value(
-            value: TaskServices().getAllTask(userProvider.getToken().toString()),
+            value:
+                TaskServices().getAllTask(userProvider.getToken().toString()),
             initialData: GetAllTaskModel(),
             builder: (context, child) {
               GetAllTaskModel taskModel = context.watch<GetAllTaskModel>();
@@ -39,26 +41,52 @@ class _GetAllTaskViewState extends State<GetAllTaskView> {
                       itemBuilder: (context, i) {
                         return ListTile(
                           leading: Icon(Icons.task),
-                          title: Text(taskModel.tasks![i].description.toString()),
+                          title:
+                              Text(taskModel.tasks![i].description.toString()),
                           subtitle:
                               Text(taskModel.tasks![i].createdAt.toString()),
-                          trailing: IconButton(
-                              onPressed: () {
-                                isLoading = true;
-                                setState(() {});
-                                TaskServices()
-                                    .deleteTask(
-                                        token: userProvider.getToken().toString(),
-                                        taskID: taskModel.tasks![i].id.toString())
-                                    .then((val) {
-                                  isLoading = false;
-                                  setState(() {});
-                                });
-                              },
-                              icon: Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                              )),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UpdateTaskView(
+                                                        model: taskModel
+                                                            .tasks![i])))
+                                        .then((val) {
+                                      setState(() {});
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.blue,
+                                  )),
+                              IconButton(
+                                  onPressed: () {
+                                    isLoading = true;
+                                    setState(() {});
+                                    TaskServices()
+                                        .deleteTask(
+                                            token: userProvider
+                                                .getToken()
+                                                .toString(),
+                                            taskID: taskModel.tasks![i].id
+                                                .toString())
+                                        .then((val) {
+                                      isLoading = false;
+                                      setState(() {});
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  )),
+                            ],
+                          ),
                         );
                       });
             }),
