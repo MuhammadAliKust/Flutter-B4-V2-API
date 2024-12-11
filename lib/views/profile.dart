@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_b4_v2/providers/user.dart';
 import 'package:flutter_b4_v2/views/create_task.dart';
 import 'package:flutter_b4_v2/views/get_all_task.dart';
+import 'package:flutter_b4_v2/views/get_completed_task.dart';
+import 'package:flutter_b4_v2/views/get_inCompleted_task.dart';
+import 'package:flutter_b4_v2/views/search_task.dart';
 import 'package:provider/provider.dart';
 
 class ProfileView extends StatelessWidget {
@@ -17,9 +20,31 @@ class ProfileView extends StatelessWidget {
           IconButton(
               onPressed: () {
                 Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchTaskView()));
+              },
+              icon: Icon(Icons.search)),
+          IconButton(
+              onPressed: () {
+                Navigator.push(context,
                     MaterialPageRoute(builder: (context) => GetAllTaskView()));
               },
-              icon: Icon(Icons.task))
+              icon: Icon(Icons.task)),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => GetCompletedTaskView()));
+              },
+              icon: Icon(Icons.circle)),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => GetInCompletedTaskView()));
+              },
+              icon: Icon(Icons.incomplete_circle)),
         ],
       ),
       floatingActionButton: FloatingActionButton(

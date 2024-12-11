@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter_b4_v2/models/create_task.dart';
 import 'package:flutter_b4_v2/models/get_all_task.dart';
@@ -30,6 +31,64 @@ class TaskServices {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return GetAllTaskModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw response.reasonPhrase.toString();
+    }
+  }
+
+  ///Get Completed Task
+  Future<GetAllTaskModel> getCompletedTask(String token) async {
+    http.Response response = await http.get(
+      Uri.parse('${baseUrl}todos/completed'),
+      headers: {'Authorization': token},
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return GetAllTaskModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw response.reasonPhrase.toString();
+    }
+  }
+
+  ///Get InCompleted Task
+  Future<GetAllTaskModel> getInCompletedTask(String token) async {
+    http.Response response = await http.get(
+      Uri.parse('${baseUrl}todos/incomplete'),
+      headers: {'Authorization': token},
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return GetAllTaskModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw response.reasonPhrase.toString();
+    }
+  }
+
+  ///Search Task
+  Future<GetAllTaskModel> searchTask(
+      {required String token, required String search}) async {
+    http.Response response = await http.get(
+      Uri.parse('${baseUrl}todos/search?keywords=$search'),
+      headers: {'Authorization': token},
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return GetAllTaskModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw response.reasonPhrase.toString();
+    }
+  }
+
+  ///Delete Task
+  Future<bool> deleteTask(
+      {required String token, required String taskID}) async {
+
+    http.Response response = await http.delete(
+      Uri.parse('${baseUrl}todos/delete/$taskID'),
+      headers: {'Authorization': token},
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return true;
     } else {
       throw response.reasonPhrase.toString();
     }
